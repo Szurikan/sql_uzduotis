@@ -4,6 +4,8 @@ from models.departments import Department
 from models.employee_project import EmployeeProject
 from database.config import session_maker
 from services.app_service import get_string_input, get_int_input, get_date
+from services.department_service import show_departments
+from services.project_service import show_projects
 from sqlalchemy import select, or_, cast, String
 
 
@@ -114,6 +116,8 @@ def delete_employee():
         print("Darbuotojas istrintas.")
         
 def assign_employee_to_project():
+    show_employees()
+    show_projects()
     with session_maker() as session:
         employee_id = get_int_input("Įveskite darbuotojo ID: ")
         project_id = get_int_input("Įveskite projekto ID: ")
@@ -139,6 +143,8 @@ def assign_employee_to_project():
         print(f"Darbuotojas {employee.name} sėkmingai priskirtas prie projekto {project.name}.")
 
 def assign_employee_to_department():
+    show_employees()
+    show_departments()
     with session_maker() as session:
         employee_id = get_int_input("Įveskite darbuotojo ID: ")
         department_id = get_int_input("Įveskite departamento ID: ")

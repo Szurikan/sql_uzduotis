@@ -18,8 +18,20 @@ def add_project():
         session.commit()
     print("Darbuotojas sekmingai pridetas.")
 
+def show_projects():
+    with session_maker() as session:
+        query = select(Project) # gauname objektus
+        projects = session.execute(query).scalars().all()
+    if projects:
+        print(f"Projektu sarasas: \n")
+    for project in projects:
+        print(project)
+    if not projects:
+        print("Projektu nerasta.")
+
     
 def show_employee_projects():
+    show_projects()
     with session_maker() as session:
         employee_id = get_int_input("Iveskite darbuotojo ID: ")
 

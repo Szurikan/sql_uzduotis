@@ -15,6 +15,7 @@ class Employee(Base): # Person paveldi base klase
     salary = Column(Float, nullable=False)
     start_date = Column(Date, nullable=False, default=date.today)
     department_id = Column(Integer, ForeignKey('departments.id'), nullable = True)
+    
     department = relationship("Department", back_populates="employees")
 
     project_associations = relationship('EmployeeProject', back_populates='employee')
