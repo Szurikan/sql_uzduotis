@@ -23,6 +23,9 @@ def get_int_input(text):
     while True:
         try:
             value = int(input(text))
+            if value < 0:
+                print("Ivestis negali buti mazesne uz nuli.")
+                continue
             break
         except ValueError:
             print("Neteisinga ivestis.")
