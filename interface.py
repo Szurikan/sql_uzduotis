@@ -1,8 +1,8 @@
 import os
 from colorama import Fore, Style
-import services.employee_service 
-from services.project_service import add_project, show_employee_projects
-from services.department_service import add_department, show_department_employees
+from services.employee_service import add_employee, show_employees, search_employee, update_employee, delete_employee
+from services.project_service import add_project, show_employee_projects, assign_employee_to_project
+from services.department_service import add_department, show_department_employees, assign_employee_to_department
 
 def show_menu():
         
@@ -29,25 +29,25 @@ def show_menu():
 
         match choice:
             case "1":
-                services.employee_service.add_employee()
+                add_employee()
             case "2":  
-                services.employee_service.show_employees()
+                show_employees()
             case "3":
-                services.employee_service.search_employee()
+                search_employee()
             case "4":
-                services.employee_service.update_employee()
+                update_employee()
             case "5":
-                services.employee_service.delete_employee()
+                delete_employee()
             case "6":
                 add_project()
             case "7":
-                services.employee_service.assign_employee_to_project()
+                assign_employee_to_project()
             case "8":
                 show_employee_projects()
             case "9":
                 add_department()
             case "10":
-                services.employee_service.assign_employee_to_department()
+                assign_employee_to_department()
             case "11":
                 show_department_employees()
             case "12":

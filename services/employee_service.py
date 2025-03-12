@@ -1,12 +1,8 @@
 from models.employees import Employee
-from models.projects import Project
-from models.departments import Department
-from models.employee_project import EmployeeProject
 from database.config import session_maker
 from services.app_service import get_string_input, get_int_input, get_date
-from services.department_service import show_departments
-from services.project_service import show_projects
 from sqlalchemy import select, or_, cast, String
+
 
 
 def add_employee():
@@ -30,13 +26,14 @@ def add_employee():
 def show_employees():
     with session_maker() as session:
         query = select(Employee) # gauname objektus
-        employees = session.execute(query).scalars().all()
+        employees = session.query(Employee).all()
         if employees:
             print(f"Darbuotoju sarasas: \n")
         for employee in employees:
             print(employee)
         if not employees:
             print("Darbuotoju nerasta.")
+        print("*" * 80)
 
 
 def search_employee():
@@ -115,51 +112,29 @@ def delete_employee():
         session.commit()
         print("Darbuotojas istrintas.")
         
-def assign_employee_to_project():
-    show_employees()
-    show_projects()
-    with session_maker() as session:
-        employee_id = get_int_input("Įveskite darbuotojo ID: ")
-        project_id = get_int_input("Įveskite projekto ID: ")
 
-        employee = session.get(Employee, employee_id)
-        project = session.get(Project, project_id)
 
-        if not employee:
-            print("Darbuotojas nerastas.")
-            return
-        if not project:
-            print("Projektas nerastas.")
-            return
+# def assign_employee_to_department():
+#     show_employees()
+#     show_departments()
+#     with session_maker() as session:
+#         employee_id = get_int_input("Įveskite darbuotojo ID: ")
+#         department_id = get_int_input("Įveskite departamento ID: ")
 
-        existing_association = session.query(EmployeeProject).filter_by(employee_id=employee_id, project_id=project_id).first()
-        if existing_association:
-            print(f"Darbuotojas {employee.name} jau priskirtas šiam projektui.")
-            return
+#         employee = session.get(Employee, employee_id)
+#         if not employee:
+#             print("Darbuotojas nerastas.")
+#             return
 
-        association = EmployeeProject(employee_id=employee_id, project_id=project_id)
-        session.add(association)
-        session.commit()
-        print(f"Darbuotojas {employee.name} sėkmingai priskirtas prie projekto {project.name}.")
+#         department = session.get(Department, department_id)
+#         if not department:
+#             print("Departamentas nerastas.")
+#             return
 
-def assign_employee_to_department():
-    show_employees()
-    show_departments()
-    with session_maker() as session:
-        employee_id = get_int_input("Įveskite darbuotojo ID: ")
-        department_id = get_int_input("Įveskite departamento ID: ")
+#         employee.department_id = department_id
+#         session.commit()
 
-        employee = session.get(Employee, employee_id)
-        if not employee:
-            print("Darbuotojas nerastas.")
-            return
+#         print("Darbuotojas priskirtas departamentui.")
 
-        department = session.get(Department, department_id)
-        if not department:
-            print("Departamentas nerastas.")
-            return
 
-        employee.department_id = department_id
-        session.commit()
 
-        print("Darbuotojas priskirtas departamentui.")
